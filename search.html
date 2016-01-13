@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="http://fb.me/react-0.12.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Practice React</title>
+  </head>
+  <body>
+    <div id="mount-point"></div>
+    <script type="text/jsx" charset="utf-8">
+      var List = React.createClass({
+        filterList: function(event){
+          var updatedList = this.state.initialItems;
+          updatedList = updatedList.filter(function(item){
+            return item.toLowerCase().search(
+              event.target.value.toLowerCase()) !== -1;
+          });
+          this.setState({items: updatedList});
+        },
+        getInitialState: function(){
+          return {
+            initialItems: [
+              "React",
+              "Angular",
+              "Node",
+              "Backbone",
+              "Underscore",
+              "Express",
+              "Handlebar"
+            ],
+            items: []
+          }
+        },
+        componentWillMount: function(){
+          this.setState({items: this.state.initialItems})
+        },
+        render: function(){
+          return (
+            <div className="filter-list">
+            <input type="text" placeholder="Search" onChange={this.filterList}/>
+            <Lis items={this.state.items}/>
+            </div>
+          );
+        }
+      });
+
+      var Lis = React.createClass({
+        render: function(){
+          return(
+            <ul>
+            {
+              this.props.items.map(function(item) {
+                return <li key={item}>{item}</li>
+              })
+            }
+            </ul>
+          )
+        }
+      });
+      React.renderComponent(<List/>, document.getElementById('mount-point'));
+    </script>
+  </body>
+</html>
